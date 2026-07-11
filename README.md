@@ -145,5 +145,63 @@ Open:
 
 You should see Swagger UI at /docs.
 
+---
+
+#### Step 6: Add configuration with Pydantic
+
+Create *app/config/settings.py:*
+
+```python
+from pydantic_settings import BaseSettings
+
+class Settings(BaseSettings):
+    app_name: str = "FocusFlow"
+    app_version: str = "1.0.0"
+
+settings = Settings()
+
+```
+
+Update *app/main.py:*
+
+```python
+from fastapi import FastAPI
+from app.config.settings import settings
+
+app = FastAPI(
+    title=settings.app_name,
+    version=settings.app_version
+)
+```
+This introduces centralized configuration. Later, Vault will provide secrets that these settings depend on.
+
+---
+
+#### Step 7: Initialize Git
+
+```bash
+git init
+```
+
+Create .gitignore
+
+```bash
+.venv/
+__pycache__/
+*.pyc
+.env
+```
+
+Commit your work:
+
+```git
+git add .
+git commit -m "Initial FastAPI project setup"
+```
+
+
+
+
+
 
 
