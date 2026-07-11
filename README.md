@@ -1,4 +1,6 @@
 # focusflow
+
+[![CI for FocusFlow](https://github.com/AshuApurva14/focusflow/actions/workflows/ci.yml/badge.svg)](https://github.com/AshuApurva14/focusflow/actions/workflows/ci.yml)
 ---
 ##### **Introduction**
 
