@@ -1,21 +1,23 @@
 from fastapi import FastAPI
-from app.config.settings import settings
+
+from app.core.config import settings
+
+from app.api.v1.router import api_router
+
+from app.exceptions.handlers import generic_exception_handler
+
 
 
 app = FastAPI(
-    title=settings.app_name,
-    version=settings.app_version,
-    description="Focus Training System"
+    title=settings.APP_NAME,
+    version=settings.VERSION
 )
 
-@app.get("/")
-def home():
-    return {
-        "message": "Welcome to FocusFlow"
-    }
+app.include_router(
+    api_router,
+    prefix=settings.API_PREFIX
+)
 
-@app.get("/health")
-def health():
-    return {
-        "status": "UP"
-    }
+app.add_exception_handler(
+    Exception, generic_exception_handler
+)

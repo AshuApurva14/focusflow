@@ -6,6 +6,55 @@ Build, containerize, deploy, and secure a FastAPI application on Kubernetes usin
 
 ---
 
+## Final Project Structure
+
+```python
+focusflow/
+│
+├── app/
+│   ├── api/
+│   │   └── v1/
+│   │       ├── router.py
+│   │       ├── health.py
+│   │       ├── users.py
+│   │       └── tasks.py
+│   │
+│   ├── core/
+│   │       config.py
+│   │       logger.py
+│   │       security.py
+│   │
+│   ├── db/
+│   │
+│   ├── middleware/
+│   │
+│   ├── exceptions/
+│   │
+│   ├── models/
+│   │
+│   ├── repositories/
+│   │
+│   ├── schemas/
+│   │
+│   ├── services/
+│   │
+│   ├── utils/
+│   │
+│   ├── main.py
+│   │
+│   └── __init__.py
+│
+├── tests/
+│
+├── .env
+│
+├── requirements.txt
+│
+└── README.md
+
+```
+
+
 ## Project Setup 
 
 Goal: Create a simple FastAPI application with a clean structure that we'll extend throughout the course.
@@ -53,49 +102,6 @@ Upgrade pip:
 <> Bash
 python -m pip install --upgrade pip
 ```
-
-
----
-
-#### Step 2: Step 2: Install dependencies
-
-```bash
-pip install fastapi uvicorn pydantic pydantic-settings
-```
-
-Save them:
-
-```bash
-pip freeze > requirements.txt
-```
----
-
-#### Step 3: Create the directory structure
-
-```bash
-focusflow/
-├── app/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── config/
-│   ├── models/
-│   ├── schemas/
-│   ├── services/
-│   ├── repositories/
-│   ├── api/
-│   └── utils/
-├── requirements.txt
-└── .gitignore
-
-```
-Create the folders:
-
-```bash
-mkdir -p app/{api,config,models,repositories,schemas,services,utils}
-touch app/__init__.py
-
-```
-
 (If you're on Windows without mkdir -p, you can create them manually in VS Code.)
 
 ---
@@ -149,17 +155,27 @@ You should see Swagger UI at /docs.
 
 #### Step 6: Add configuration with Pydantic
 
-Create *app/config/settings.py:*
+Create *app/core/config.py:*
 
 ```python
 from pydantic_settings import BaseSettings
 
+
 class Settings(BaseSettings):
-    app_name: str = "FocusFlow"
-    app_version: str = "1.0.0"
+
+    APP_NAME: str = "FocusFlow"
+
+    VERSION: str = "1.0"
+
+    API_PREFIX: str = "/api/v1"
+
+    DEBUG: bool = True
+
+    class Config:
+        env_file = ".env"
+
 
 settings = Settings()
-
 ```
 
 Update *app/main.py:*
