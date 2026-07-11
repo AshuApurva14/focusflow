@@ -1,0 +1,27 @@
+name: CI for FocusFlow
+
+on:
+  push:
+    branches:
+        - main
+
+  pull_request:
+    branches:
+        - main
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs:
+    Detect-changes:
+      runs-on: ubuntu-latest
+
+      steps:
+          - name: Checkout Repository
+            uses: actions/checkout@v6
+
+
